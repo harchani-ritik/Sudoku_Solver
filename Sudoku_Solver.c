@@ -4,7 +4,7 @@ int filled[9][9]={0};
 int possibility[9][9][10]={0};
 
 void setPossiblity()
-{
+{//Setting possibility of all data(except zero) at all positions equal to one
     for(int i=0;i<9;i++)
         for(int j=0;j<9;j++)
             for(int k=1;k<10;k++)
@@ -12,7 +12,7 @@ void setPossiblity()
 }
 
 void showGrid()
-{
+{//function to print the grid
     printf("\n");
     for(int i=0;i<9;i++)
     {
@@ -30,7 +30,7 @@ void showGrid()
 }
 
 void placeNumber(int data,int row,int column)
-{
+{//places the data at requires position
     for(int i=0;i<9;i++)
     {//to rule out possibility of that data in that row
         possibility[row][i][data]=0;
@@ -53,9 +53,9 @@ void placeNumber(int data,int row,int column)
 }
 
 void fillInSomeNumbers()
-{
+{//to initialize the data of Pre-Given Grid
     int data,row,column,k;
-    printf("Enter Number of Pre-Given Data");
+    printf("Enter Number of Pre-Given Data\n");
     scanf("%d",&k);
     for(int i=0;i<k;i++)
     {
@@ -65,7 +65,7 @@ void fillInSomeNumbers()
 }
 
 int findVacantPositions()
-{
+{//to find Vacancy in Grid
     int counter=0;
     for(int i=0;i<9;i++)
     {
@@ -82,7 +82,7 @@ int findVacantPositions()
 }
 
 void solveSudoku()
-{
+{//the function responsible for solving the sudoku
     int b[10]={0};
     if(findVacantPositions()==0)
     {
@@ -107,25 +107,29 @@ void solveSudoku()
                         data=k;
                     }
                 }
+                //If there no possibility to place any data on a position then it's impossible to solve sudoku
+                if(counter==0)
+                    printf("Impossible\n");
+
+                //Place the number if there's certainty of a data at that position
                 if(counter==1)
                     placeNumber(data,i,j);
 
-                if(counter==0)
-                    printf("Impossible\n");
                 b[counter]++;
             }
         }
     }
     for(int i=0;i<10;i++)
     {
-        printf("Position having %d possibility=%d\n",i,b[i]);
+        printf("Positions having %d possibility=%d\n",i,b[i]);
     }
+    //solve recursively till all the positions having single possibility aren't filled
     if(b[1]!=0)
             solveSudoku();
 }
 
 void showPossibility()
-{
+{//function to just check possibility of all positions if needed(for debugging)
     for(int i=0;i<9;i++)
     {
         for(int j=0;j<9;j++)
